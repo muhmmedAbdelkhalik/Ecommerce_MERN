@@ -5,6 +5,7 @@ import cors from "cors";
 import userRoute from "./routers/userRoute.js";
 import { seedInitialProduct } from "./services/productService.js";
 import productRoute from "./routers/productRoute.js";
+import cartRoute from "./routers/cartRoute.js";
 
 const app = express();
 const port = 3000;
@@ -23,6 +24,7 @@ seedInitialProduct();
 
 app.use('/api/user', userRoute);
 app.use('/api/product', productRoute);
+app.use('/api/cart', cartRoute);
 
 app.listen(port, () => {
   console.log(`Express server is running on port: http://localhost:${port}`);

@@ -10,8 +10,8 @@ router.post('/register', async (req, res) => {
 });
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const { success, message, data } = await login({ email, password });
-    res.status(success ? 200 : 400).json({ message, data });
+    const { success, message, data, token } = await login({ email, password });
+    res.status(success ? 200 : 400).json({ message, data, token });
 });
 
 export default router;
