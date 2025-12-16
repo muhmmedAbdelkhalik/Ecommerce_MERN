@@ -3,6 +3,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import userRoute from "./routers/userRoute.js";
+import { seedInitialProduct } from "./services/productService.js";
+import productRoute from "./routers/productRoute.js";
 
 const app = express();
 const port = 3000;
@@ -17,7 +19,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/ecommerce')
   .then(() => console.log('MongoDB Connected!'))
   .catch((err) => console.error('MongoDB Connection Error:', err));
 
+seedInitialProduct();
+
 app.use('/api/user', userRoute);
+app.use('/api/product', productRoute);
 
 app.listen(port, () => {
   console.log(`Express server is running on port: http://localhost:${port}`);
