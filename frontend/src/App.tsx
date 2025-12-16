@@ -1,11 +1,18 @@
-import { Box, Typography } from "@mui/material";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/home";
+import LoginPage from "./pages/login";
 
 function App() {
-  return <>
-  <Box>
-    <Typography variant="h1">Hello World</Typography>
-  </Box>
-  </>;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
