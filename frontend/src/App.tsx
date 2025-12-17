@@ -4,13 +4,14 @@ import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import Navbar from "./components/navbar";
 import AuthProvider from "./context/auth/authProvider";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   return (
     <AuthProvider>
+      <CssBaseline />
       <BrowserRouter>
         <Navbar />
-        
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
