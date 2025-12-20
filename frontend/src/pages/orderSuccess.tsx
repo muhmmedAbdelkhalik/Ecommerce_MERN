@@ -35,7 +35,7 @@ const OrderSuccessPage = () => {
   return (
     <Box
       sx={{
-        minHeight: "90vh",
+        minHeight: "calc(100vh - 64px)",
         display: "flex",
         alignItems: "center",
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",

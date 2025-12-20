@@ -80,10 +80,11 @@ const OrdersPage = () => {
     return (
       <Box
         sx={{
-          minHeight: "90vh",
+          minHeight: "calc(100vh - 64px)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         }}
       >
         <CircularProgress />
@@ -94,9 +95,10 @@ const OrdersPage = () => {
   return (
     <Box
       sx={{
-        minHeight: "90vh",
+        minHeight: "calc(100vh - 64px)",
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         py: 4,
+        pb: 6,
       }}
     >
       <Container maxWidth="lg">

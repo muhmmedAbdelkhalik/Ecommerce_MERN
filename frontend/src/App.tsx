@@ -4,7 +4,7 @@ import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import Navbar from "./components/navbar";
 import AuthProvider from "./context/auth/authProvider";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, GlobalStyles } from "@mui/material";
 import CartPage from "./pages/cart";
 import CheckoutPage from "./pages/checkout";
 import OrderSuccessPage from "./pages/orderSuccess";
@@ -18,6 +18,23 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <CssBaseline />
+        <GlobalStyles
+          styles={{
+            html: {
+              height: "100%",
+              margin: 0,
+              padding: 0,
+            },
+            body: {
+              height: "100%",
+              margin: 0,
+              padding: 0,
+            },
+            "#root": {
+              minHeight: "100vh",
+            },
+          }}
+        />
         <BrowserRouter>
           <Navbar />
           <Routes>

@@ -33,7 +33,7 @@ const HomePage = () => {
     return (
       <Box
         sx={{
-          minHeight: "90vh",
+          minHeight: "calc(100vh - 64px)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -49,7 +49,7 @@ const HomePage = () => {
     return (
       <Box
         sx={{
-          minHeight: "90vh",
+          minHeight: "calc(100vh - 64px)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -71,9 +71,10 @@ const HomePage = () => {
   return (
     <Box
       sx={{
-        minHeight: "90vh",
+        minHeight: "calc(100vh - 64px)",
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         py: 4,
+        pb: 6,
       }}
     >
       <Container maxWidth="xl">
@@ -117,9 +118,25 @@ const HomePage = () => {
         </Box>
 
         {/* Products Grid */}
-        <Grid container spacing={3}>
-          {products.map((product: Product) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product._id}>
+        <Grid container spacing={4}>
+          {products.map((product: Product, index: number) => (
+            <Grid 
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }} 
+              key={product._id}
+              sx={{
+                animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`,
+                "@keyframes fadeInUp": {
+                  from: {
+                    opacity: 0,
+                    transform: "translateY(20px)",
+                  },
+                  to: {
+                    opacity: 1,
+                    transform: "translateY(0)",
+                  },
+                },
+              }}
+            >
               <ProductCard product={product} />
             </Grid>
           ))}

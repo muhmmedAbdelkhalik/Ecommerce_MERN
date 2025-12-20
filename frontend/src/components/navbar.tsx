@@ -32,7 +32,10 @@ function Navbar() {
   );
 
   // Calculate total number of items in cart
-  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -119,38 +122,39 @@ function Navbar() {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* Shopping Cart */}
-          <Tooltip title="Shopping Cart" arrow>
-            <IconButton
-              component={Link}
-              to="/cart"
-              sx={{
-                color: "white",
-                mr: { xs: 1, sm: 2 },
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  transform: "scale(1.1)",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                },
-              }}
-            >
-              <Badge
-                badgeContent={cartItemCount}
-                color="error"
+          {isAuthenticated && (
+            <Tooltip title="Shopping Cart" arrow>
+              <IconButton
+                component={Link}
+                to="/cart"
                 sx={{
-                  "& .MuiBadge-badge": {
-                    fontSize: "0.7rem",
-                    minWidth: 18,
-                    height: 18,
-                    backgroundColor: "#ff4757",
-                    fontWeight: 600,
+                  color: "white",
+                  mr: { xs: 1, sm: 2 },
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.1)",
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
                   },
                 }}
               >
-                <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 26 } }} />
-              </Badge>
-            </IconButton>
-          </Tooltip>
+                <Badge
+                  badgeContent={cartItemCount}
+                  color="error"
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      fontSize: "0.7rem",
+                      minWidth: 18,
+                      height: 18,
+                      backgroundColor: "#ff4757",
+                      fontWeight: 600,
+                    },
+                  }}
+                >
+                  <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 26 } }} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+          )}
 
           {isAuthenticated && (
             <Box
@@ -258,9 +262,13 @@ function Navbar() {
                     }}
                   >
                     {setting === "My Orders" ? (
-                      <ReceiptIcon sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }} />
+                      <ReceiptIcon
+                        sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }}
+                      />
                     ) : (
-                      <LogoutIcon sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }} />
+                      <LogoutIcon
+                        sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }}
+                      />
                     )}
                     <Typography sx={{ fontWeight: 500, fontSize: "0.95rem" }}>
                       {setting}
