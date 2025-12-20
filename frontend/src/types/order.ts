@@ -18,4 +18,6 @@ export interface Order {
   totalPrice: number;
   address: string;
   status: OrderStatus;
+  createdAt: string;
+  updatedAt: string;
 }

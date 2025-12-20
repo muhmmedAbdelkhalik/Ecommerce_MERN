@@ -8,6 +8,8 @@ import { CssBaseline } from "@mui/material";
 import CartPage from "./pages/cart";
 import CheckoutPage from "./pages/checkout";
 import OrderSuccessPage from "./pages/orderSuccess";
+import OrdersPage from "./pages/orders";
+import OrderDetailsPage from "./pages/orderDetails";
 import ProtectedRoute from "./components/protectedRoute";
 import CartProvider from "./context/cart/cartProvider";
 
@@ -26,6 +28,8 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/order-success" element={<OrderSuccessPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/orders/:id" element={<OrderDetailsPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -19,8 +19,9 @@ import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
-const settings = ["Logout"];
+const settings = ["My Orders", "Logout"];
 
 function Navbar() {
   const { userName, isAuthenticated, logout } = useAuth();
@@ -238,7 +239,10 @@ function Navbar() {
                   <MenuItem
                     key={setting}
                     onClick={() => {
-                      if (setting === "Logout") {
+                      if (setting === "My Orders") {
+                        navigate("/orders");
+                        handleCloseUserMenu();
+                      } else if (setting === "Logout") {
                         logout();
                         navigate("/login");
                         handleCloseUserMenu();
@@ -253,7 +257,11 @@ function Navbar() {
                       transition: "background-color 0.2s ease",
                     }}
                   >
-                    <LogoutIcon sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }} />
+                    {setting === "My Orders" ? (
+                      <ReceiptIcon sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }} />
+                    ) : (
+                      <LogoutIcon sx={{ mr: 1.5, fontSize: 20, color: "text.secondary" }} />
+                    )}
                     <Typography sx={{ fontWeight: 500, fontSize: "0.95rem" }}>
                       {setting}
                     </Typography>

@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import type { Product } from "../types/products";
 import type { IResponse } from "../types/response";
 import { BASE_URL } from "../constants/baseUrl";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography, Paper, Alert } from "@mui/material";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 
 const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -27,41 +28,125 @@ const HomePage = () => {
     };
     fetchProducts();
   }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          minHeight: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        }}
+      >
+        <CircularProgress sx={{ color: "white" }} size={60} />
+      </Box>
+    );
+  }
+
   if (error) {
     return (
       <Box
         sx={{
+          minHeight: "90vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          py: 4,
         }}
       >
-        <Typography variant="h6">Error fetching products</Typography>
+        <Container maxWidth="md">
+          <Paper elevation={10} sx={{ p: { xs: 3, sm: 5 }, borderRadius: 3 }}>
+            <Alert severity="error" sx={{ fontSize: "1.1rem" }}>
+              Error fetching products. Please try again later.
+            </Alert>
+          </Paper>
+        </Container>
       </Box>
     );
   }
-  return loading ? (
+
+  return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
+        minHeight: "90vh",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        py: 4,
       }}
     >
-      <CircularProgress />
+      <Container maxWidth="xl">
+        {/* Header */}
+        <Box
+          sx={{
+            textAlign: "center",
+            mb: 4,
+            color: "white",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 2,
+              mb: 2,
+            }}
+          >
+            <StorefrontIcon sx={{ fontSize: 48 }} />
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 700,
+                textShadow: "0 2px 4px rgba(0,0,0,0.2)",
+              }}
+            >
+              Our Products
+            </Typography>
+          </Box>
+          <Typography
+            variant="h6"
+            sx={{
+              opacity: 0.9,
+              fontWeight: 400,
+            }}
+          >
+            Discover amazing products at great prices
+          </Typography>
+        </Box>
+
+        {/* Products Grid */}
+        <Grid container spacing={3}>
+          {products.map((product: Product) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product._id}>
+              <ProductCard product={product} />
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Empty State */}
+        {products.length === 0 && (
+          <Paper
+            elevation={10}
+            sx={{
+              p: 8,
+              borderRadius: 3,
+              textAlign: "center",
+              mt: 4,
+            }}
+          >
+            <StorefrontIcon sx={{ fontSize: 80, color: "#667eea", mb: 2 }} />
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+              No Products Available
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Check back soon for new products!
+            </Typography>
+          </Paper>
+        )}
+      </Container>
     </Box>
-  ) : (
-    <Container sx={{ mt: 2 }}>
-      <Grid container spacing={2}>
-        {products.map((product: Product) => (
-          <Grid size={{ xs: 12, md: 4 }}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
   );
 };
 
