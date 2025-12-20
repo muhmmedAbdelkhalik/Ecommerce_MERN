@@ -10,6 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useAuth } from "../context/auth/authContext";
+import { useCart } from "../context/cart/cartContext";
 import { Button, Badge } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
@@ -23,10 +24,14 @@ const settings = ["Logout"];
 
 function Navbar() {
   const { userName, isAuthenticated, logout } = useAuth();
+  const { cartItems } = useCart();
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  // Calculate total number of items in cart
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -129,7 +134,7 @@ function Navbar() {
               }}
             >
               <Badge
-                badgeContent={0}
+                badgeContent={cartItemCount}
                 color="error"
                 sx={{
                   "& .MuiBadge-badge": {

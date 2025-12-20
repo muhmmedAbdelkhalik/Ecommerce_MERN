@@ -25,7 +25,7 @@ interface GetActiveCartParams {
 }
 
 export const getActiveCart = async (params: GetActiveCartParams) => {
-    let cart = await cartModel.findOne({ userId: params.userId, status: CartStatus.ACTIVE });
+    let cart = await cartModel.findOne({ userId: params.userId, status: CartStatus.ACTIVE }).populate('items.product');
     if (!cart) {
         const createResult = await createCart({ userId: params.userId });
         cart = createResult.data;
@@ -52,7 +52,12 @@ export const addItemToCart = async (params: AddItemToCartParams) => {
             data: null,
         };
     }
-    const existsInCart = cart.data?.items.find((item) => item.product.toString() === params.productId);
+    const existsInCart = cart.data?.items.find((item) => {
+        const productId = typeof item.product === 'object' && item.product._id
+            ? item.product._id.toString()
+            : item.product.toString();
+        return productId === params.productId;
+    });
     if (existsInCart) {
         return {
             success: false,
@@ -92,6 +97,7 @@ export const addItemToCart = async (params: AddItemToCartParams) => {
     product.stock -= params.quantity;
     await product.save();
     await cart.data.save();
+    await cart.data.populate('items.product');
     return {
         success: true,
         message: 'Item added to cart',
@@ -114,7 +120,12 @@ export const updateItemInCart = async (params: UpdateItemInCartParams) => {
             data: null,
         };
     }
-    const item = cart.data.items.find((item) => item.product.toString() === params.productId);
+    const item = cart.data.items.find((item) => {
+        const productId = typeof item.product === 'object' && item.product._id
+            ? item.product._id.toString()
+            : item.product.toString();
+        return productId === params.productId;
+    });
     if (!item) {
         return {
             success: false,
@@ -152,6 +163,7 @@ export const updateItemInCart = async (params: UpdateItemInCartParams) => {
     product.stock -= quantityDifference;
     await product.save();
     await cart.data.save();
+    await cart.data.populate('items.product');
 
     return {
         success: true,
@@ -174,7 +186,12 @@ export const deleteItemFromCart = async (params: DeleteItemFromCartParams) => {
             data: null,
         };
     }
-    const item = cart.data.items.find((item) => item.product.toString() === params.productId);
+    const item = cart.data.items.find((item) => {
+        const productId = typeof item.product === 'object' && item.product._id
+            ? item.product._id.toString()
+            : item.product.toString();
+        return productId === params.productId;
+    });
     if (!item) {
         return {
             success: false,
@@ -190,11 +207,17 @@ export const deleteItemFromCart = async (params: DeleteItemFromCartParams) => {
             data: null,
         };
     }
-    cart.data.items = cart.data.items.filter((item) => item.product.toString() !== params.productId);
+    cart.data.items = cart.data.items.filter((item) => {
+        const productId = typeof item.product === 'object' && item.product._id
+            ? item.product._id.toString()
+            : item.product.toString();
+        return productId !== params.productId;
+    });
     cart.data.totalPrice -= item.unitPrice * item.quantity;
     product.stock += item.quantity;
     await product.save();
     await cart.data.save();
+    await cart.data.populate('items.product');
     return {
         success: true,
         message: 'Item deleted from cart',

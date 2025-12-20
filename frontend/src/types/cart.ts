@@ -1,6 +1,8 @@
+import type { Product } from "./products";
+
 export interface CartItem {
   _id: string;
-  product: string;
+  product: string | Product;
   unitPrice: number;
   quantity: number;
 }
