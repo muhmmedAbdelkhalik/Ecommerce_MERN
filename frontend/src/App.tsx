@@ -6,6 +6,8 @@ import Navbar from "./components/navbar";
 import AuthProvider from "./context/auth/authProvider";
 import { CssBaseline } from "@mui/material";
 import CartPage from "./pages/cart";
+import CheckoutPage from "./pages/checkout";
+import OrderSuccessPage from "./pages/orderSuccess";
 import ProtectedRoute from "./components/protectedRoute";
 import CartProvider from "./context/cart/cartProvider";
 
@@ -22,6 +24,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/order-success" element={<OrderSuccessPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

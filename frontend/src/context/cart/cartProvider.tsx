@@ -162,9 +162,38 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const refreshCart = async () => {
+    if (!token) {
+      setCartItems([]);
+      setTotalPrice(0);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/cart`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = (await response.json()) as {
+        message: string;
+        data: Cart | null;
+      };
+      if (data.data) {
+        setCartItems(data.data.items || []);
+        setTotalPrice(data.data.totalPrice || 0);
+      } else {
+        setCartItems([]);
+        setTotalPrice(0);
+      }
+    } catch (error) {
+      console.error("Error refreshing cart:", error);
+      setCartItems([]);
+      setTotalPrice(0);
+    }
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, totalPrice, isLoading, addItem, updateItem, removeItem, clearCart }}
+      value={{ cartItems, totalPrice, isLoading, addItem, updateItem, removeItem, clearCart, refreshCart }}
     >
       {children}
     </CartContext.Provider>

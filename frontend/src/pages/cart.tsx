@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart/cartContext";
 import {
   Box,
@@ -18,6 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const {
     cartItems,
     totalPrice,
@@ -151,11 +153,33 @@ const CartPage = () => {
           })}
         </List>
         <Divider />
-        <Box sx={{ p: 2, display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6">Total:</Typography>
-          <Typography variant="h6" fontWeight="bold">
-            {totalPrice.toFixed(2)} EGP
-          </Typography>
+        <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="h6">Total:</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              {totalPrice.toFixed(2)} EGP
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => navigate("/checkout")}
+            sx={{
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              color: "white",
+              fontWeight: 600,
+              py: 1.5,
+              fontSize: "1rem",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                background: "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+                transform: "translateY(-2px)",
+                boxShadow: "0 6px 20px rgba(102, 126, 234, 0.4)",
+              },
+            }}
+          >
+            Proceed to Checkout
+          </Button>
         </Box>
       </Paper>
     </Box>
